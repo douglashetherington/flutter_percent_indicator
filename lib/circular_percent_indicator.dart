@@ -1,9 +1,9 @@
 //import 'dart:math';
 
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 enum ArcType { HALF, FULL }
 
@@ -27,6 +27,7 @@ num radians(num deg) => deg * (math.pi / 180.0);
 // ignore: must_be_immutable
 class CircularPercentIndicator extends StatefulWidget {
   ///Percent value between 0.0 and 1.0
+  final double startPercent;
   final double percent;
   final double radius;
 
@@ -105,29 +106,31 @@ class CircularPercentIndicator extends StatefulWidget {
 
   CircularPercentIndicator({
     Key? key,
-    this.percent = 0.0,
-    this.lineWidth = 5.0,
-    this.startAngle = 0.0,
-    required this.radius,
-    this.fillColor = Colors.transparent,
-    this.backgroundColor = const Color(0xFFB8C7CB),
     Color? progressColor,
     //negative values ignored, replaced with lineWidth
+    this.startPercent = 0.0,
+    this.percent = 0.0,
+    required this.radius,
+    this.lineWidth = 5.0,
     this.backgroundWidth = -1,
-    this.linearGradient,
+    this.fillColor = Colors.transparent,
+    this.backgroundColor = const Color(0xFFB8C7CB),
+    required this._progressColor,
     this.animation = false,
     this.animationDuration = 500,
     this.header,
     this.footer,
     this.center,
-    this.addAutomaticKeepAlive = true,
+    this.linearGradient,
     this.circularStrokeCap = CircularStrokeCap.butt,
-    this.arcBackgroundColor,
-    this.arcType,
+    this.startAngle = 0.0,
     this.animateFromLastPercent = false,
+    this.addAutomaticKeepAlive = true,
+    this.arcType,
+    this.arcBackgroundColor,
     this.reverse = false,
-    this.curve = Curves.linear,
     this.maskFilter,
+    this.curve = Curves.linear,
     this.restartAnimation = false,
     this.onAnimationEnd,
     this.widgetIndicator,
@@ -176,16 +179,17 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
         vsync: this,
         duration: Duration(milliseconds: widget.animationDuration),
       );
-      _animation = Tween(begin: 0.0, end: widget.percent).animate(
+      _animation =
+          Tween(begin: widget.startPercent, end: widget.percent).animate(
         CurvedAnimation(parent: _animationController!, curve: widget.curve),
       )..addListener(() {
-          setState(() {
-            _percent = _animation!.value;
-          });
-          if (widget.restartAnimation && _percent == 1.0) {
-            _animationController!.repeat(min: 0, max: 1.0);
-          }
-        });
+              setState(() {
+                _percent = _animation!.value;
+              });
+              if (widget.restartAnimation && _percent == 1.0) {
+                _animationController!.repeat(min: 0, max: 1.0);
+              }
+            });
       _animationController!.addStatusListener((status) {
         if (widget.onAnimationEnd != null &&
             status == AnimationStatus.completed) {

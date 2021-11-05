@@ -1,9 +1,9 @@
 //import 'dart:math';
 
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 enum ArcType { HALF, FULL }
 
@@ -108,28 +108,27 @@ class CircularPercentIndicator extends StatefulWidget {
     Key? key,
     this.startPercent = 0.0,
     this.percent = 0.0,
-    this.lineWidth = 5.0,
-    this.startAngle = 0.0,
     required this.radius,
+    this.lineWidth = 5.0,
+    this.backgroundWidth = -1,
     this.fillColor = Colors.transparent,
     this.backgroundColor = const Color(0xFFB8C7CB),
-    Color? progressColor,
-    //negative values ignored, replaced with lineWidth
-    this.backgroundWidth = -1,
-    this.linearGradient,
+    required this._progressColor,
     this.animation = false,
     this.animationDuration = 500,
     this.header,
     this.footer,
     this.center,
-    this.addAutomaticKeepAlive = true,
+    this.linearGradient,
     this.circularStrokeCap = CircularStrokeCap.butt,
-    this.arcBackgroundColor,
-    this.arcType,
+    this.startAngle = 0.0,
     this.animateFromLastPercent = false,
+    this.addAutomaticKeepAlive = true,
+    this.arcType,
+    this.arcBackgroundColor,
     this.reverse = false,
-    this.curve = Curves.linear,
     this.maskFilter,
+    this.curve = Curves.linear,
     this.restartAnimation = false,
     this.onAnimationEnd,
     this.widgetIndicator,
